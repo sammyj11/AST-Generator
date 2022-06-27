@@ -1,0 +1,9 @@
+program test3::
+    var X, Y: int;
+    var Z: bool;
+{   
+    X:= tt - 2;
+    read X;
+    read Y;
+    Z := X - Y ; 
+}

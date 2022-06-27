@@ -1,0 +1,8 @@
+program good ::
+var A,B:int;
+var C,D:bool;
+{
+read A;
+write (4+~34);
+C := A>B && C<=D;
+}

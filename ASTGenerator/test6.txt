@@ -1,0 +1,8 @@
+program var:
+ 	var X: int;
+{	
+	X:= tt + 2;
+	X:=10;
+	Y:=X+10;
+	write Y;
+}

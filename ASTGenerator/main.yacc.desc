@@ -1,0 +1,1321 @@
+
+state 0:
+
+	START : . PROG VARI DCOLON BLK 
+
+	PROG	shift 1
+
+	START	goto 79
+
+	.	error
+
+
+state 1:
+
+	START : PROG . VARI DCOLON BLK 
+
+	VARI	shift 2
+
+
+	.	error
+
+
+state 2:
+
+	START : PROG VARI . DCOLON BLK 
+
+	DCOLON	shift 3
+
+
+	.	error
+
+
+state 3:
+
+	START : PROG VARI DCOLON . BLK 
+
+
+	BLK	goto 5
+	DECSEQ	goto 4
+
+	.	reduce by rule 3
+
+
+state 4:
+
+	BLK : DECSEQ . COMSEQ 
+	DECSEQ : DECSEQ . DEC 
+
+	LBRACE	shift 9
+	VAR	shift 8
+
+	DEC	goto 7
+	COMSEQ	goto 6
+
+	.	error
+
+
+state 5:
+
+	START : PROG VARI DCOLON BLK .  (reduce by rule 0)
+
+
+
+	.	reduce by rule 0
+
+
+state 6:
+
+	BLK : DECSEQ COMSEQ .  (reduce by rule 1)
+
+
+
+	.	reduce by rule 1
+
+
+state 7:
+
+	DECSEQ : DECSEQ DEC .  (reduce by rule 2)
+
+
+
+	.	reduce by rule 2
+
+
+state 8:
+
+	DEC : VAR . VLIST COLON TYP EOS 
+
+	VARI	shift 11
+
+	VLIST	goto 10
+
+	.	error
+
+
+state 9:
+
+	COMSEQ : LBRACE . CMDS RBRACE 
+
+
+	CMDS	goto 12
+
+	.	reduce by rule 11
+
+
+state 10:
+
+	DEC : VAR VLIST . COLON TYP EOS 
+
+	COLON	shift 13
+
+
+	.	error
+
+
+state 11:
+
+	VLIST : VARI . COMMA VLIST 
+	VLIST : VARI .  (reduce by rule 8)
+
+	COMMA	shift 14
+
+
+	.	reduce by rule 8
+
+
+state 12:
+
+	COMSEQ : LBRACE CMDS . RBRACE 
+	CMDS : CMDS . CMD EOS 
+
+	WH	shift 21
+	IF	shift 20
+	RBRACE	shift 19
+	READ	shift 18
+	WRITE	shift 17
+	VARI	shift 16
+
+	CMD	goto 15
+
+	.	error
+
+
+state 13:
+
+	DEC : VAR VLIST COLON . TYP EOS 
+
+	BOOL	shift 24
+	INT	shift 23
+
+	TYP	goto 22
+
+	.	error
+
+
+state 14:
+
+	VLIST : VARI COMMA . VLIST 
+
+	VARI	shift 11
+
+	VLIST	goto 25
+
+	.	error
+
+
+state 15:
+
+	CMDS : CMDS CMD . EOS 
+
+	EOS	shift 26
+
+
+	.	error
+
+
+state 16:
+
+	CMD : VARI . ASSIGN EXPRE 
+
+	ASSIGN	shift 27
+
+
+	.	error
+
+
+state 17:
+
+	CMD : WRITE . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 28
+
+	.	error
+
+
+state 18:
+
+	CMD : READ . VARI 
+
+	VARI	shift 36
+
+
+	.	error
+
+
+state 19:
+
+	COMSEQ : LBRACE CMDS RBRACE .  (reduce by rule 9)
+
+
+
+	.	reduce by rule 9
+
+
+state 20:
+
+	CMD : IF . EXPRE THEN COMSEQ ELSE COMSEQ ENDIF 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 37
+
+	.	error
+
+
+state 21:
+
+	CMD : WH . EXPRE DO COMSEQ ENDWH 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 38
+
+	.	error
+
+
+state 22:
+
+	DEC : VAR VLIST COLON TYP . EOS 
+
+	EOS	shift 39
+
+
+	.	error
+
+
+state 23:
+
+	TYP : INT .  (reduce by rule 5)
+
+
+
+	.	reduce by rule 5
+
+
+state 24:
+
+	TYP : BOOL .  (reduce by rule 6)
+
+
+
+	.	reduce by rule 6
+
+
+state 25:
+
+	VLIST : VARI COMMA VLIST .  (reduce by rule 7)
+
+
+
+	.	reduce by rule 7
+
+
+state 26:
+
+	CMDS : CMDS CMD EOS .  (reduce by rule 10)
+
+
+
+	.	reduce by rule 10
+
+
+state 27:
+
+	CMD : VARI ASSIGN . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 40
+
+	.	error
+
+
+state 28:
+
+	CMD : WRITE EXPRE .  (reduce by rule 14)
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	OR	shift 53
+	AND	shift 52
+	GE	shift 51
+	GT	shift 50
+	EQ	shift 49
+	LE	shift 48
+	LT	shift 47
+	NEQ	shift 46
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+
+
+	.	reduce by rule 14
+
+
+state 29:
+
+	EXPRE : VARI .  (reduce by rule 24)
+
+
+
+	.	reduce by rule 24
+
+
+state 30:
+
+	EXPRE : NUM .  (reduce by rule 23)
+
+
+
+	.	reduce by rule 23
+
+
+state 31:
+
+	EXPRE : LPAREN . EXPRE RPAREN 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 54
+
+	.	error
+
+
+state 32:
+
+	EXPRE : UMINUS . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 55
+
+	.	error
+
+
+state 33:
+
+	EXPRE : FF .  (reduce by rule 29)
+
+
+
+	.	reduce by rule 29
+
+
+state 34:
+
+	EXPRE : TT .  (reduce by rule 28)
+
+
+
+	.	reduce by rule 28
+
+
+state 35:
+
+	EXPRE : NOT . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 56
+
+	.	error
+
+
+state 36:
+
+	CMD : READ VARI .  (reduce by rule 13)
+
+
+
+	.	reduce by rule 13
+
+
+state 37:
+
+	CMD : IF EXPRE . THEN COMSEQ ELSE COMSEQ ENDIF 
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	OR	shift 53
+	AND	shift 52
+	GE	shift 51
+	GT	shift 50
+	EQ	shift 49
+	LE	shift 48
+	LT	shift 47
+	NEQ	shift 46
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+	THEN	shift 57
+
+
+	.	error
+
+
+state 38:
+
+	CMD : WH EXPRE . DO COMSEQ ENDWH 
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	OR	shift 53
+	AND	shift 52
+	GE	shift 51
+	GT	shift 50
+	EQ	shift 49
+	LE	shift 48
+	LT	shift 47
+	NEQ	shift 46
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+	DO	shift 58
+
+
+	.	error
+
+
+state 39:
+
+	DEC : VAR VLIST COLON TYP EOS .  (reduce by rule 4)
+
+
+
+	.	reduce by rule 4
+
+
+state 40:
+
+	CMD : VARI ASSIGN EXPRE .  (reduce by rule 12)
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	OR	shift 53
+	AND	shift 52
+	GE	shift 51
+	GT	shift 50
+	EQ	shift 49
+	LE	shift 48
+	LT	shift 47
+	NEQ	shift 46
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+
+
+	.	reduce by rule 12
+
+
+state 41:
+
+	EXPRE : EXPRE MOD . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 59
+
+	.	error
+
+
+state 42:
+
+	EXPRE : EXPRE PLUS . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 60
+
+	.	error
+
+
+state 43:
+
+	EXPRE : EXPRE MINUS . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 61
+
+	.	error
+
+
+state 44:
+
+	EXPRE : EXPRE TIMES . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 62
+
+	.	error
+
+
+state 45:
+
+	EXPRE : EXPRE DIV . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 63
+
+	.	error
+
+
+state 46:
+
+	EXPRE : EXPRE NEQ . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 64
+
+	.	error
+
+
+state 47:
+
+	EXPRE : EXPRE LT . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 65
+
+	.	error
+
+
+state 48:
+
+	EXPRE : EXPRE LE . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 66
+
+	.	error
+
+
+state 49:
+
+	EXPRE : EXPRE EQ . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 67
+
+	.	error
+
+
+state 50:
+
+	EXPRE : EXPRE GT . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 68
+
+	.	error
+
+
+state 51:
+
+	EXPRE : EXPRE GE . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 69
+
+	.	error
+
+
+state 52:
+
+	EXPRE : EXPRE AND . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 70
+
+	.	error
+
+
+state 53:
+
+	EXPRE : EXPRE OR . EXPRE 
+
+	NOT	shift 35
+	TT	shift 34
+	FF	shift 33
+	UMINUS	shift 32
+	LPAREN	shift 31
+	NUM	shift 30
+	VARI	shift 29
+
+	EXPRE	goto 71
+
+	.	error
+
+
+state 54:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : LPAREN EXPRE . RPAREN 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	OR	shift 53
+	AND	shift 52
+	GE	shift 51
+	GT	shift 50
+	EQ	shift 49
+	LE	shift 48
+	LT	shift 47
+	NEQ	shift 46
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+	RPAREN	shift 72
+
+
+	.	error
+
+
+state 55:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : UMINUS EXPRE .  (reduce by rule 26)
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+
+
+	.	reduce by rule 26
+
+
+state 56:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : NOT EXPRE .  (reduce by rule 30)
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+
+
+	.	reduce by rule 30
+
+
+state 57:
+
+	CMD : IF EXPRE THEN . COMSEQ ELSE COMSEQ ENDIF 
+
+	LBRACE	shift 9
+
+	COMSEQ	goto 73
+
+	.	error
+
+
+state 58:
+
+	CMD : WH EXPRE DO . COMSEQ ENDWH 
+
+	LBRACE	shift 9
+
+	COMSEQ	goto 74
+
+	.	error
+
+
+state 59:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE MOD EXPRE .  (reduce by rule 22)
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+
+
+	.	reduce by rule 22
+
+
+state 60:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE PLUS EXPRE .  (reduce by rule 18)
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	DIV	shift 45
+	TIMES	shift 44
+	MOD	shift 41
+
+
+	.	reduce by rule 18
+
+
+state 61:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE MINUS EXPRE .  (reduce by rule 19)
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	DIV	shift 45
+	TIMES	shift 44
+	MOD	shift 41
+
+
+	.	reduce by rule 19
+
+
+state 62:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE TIMES EXPRE .  (reduce by rule 20)
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+
+
+	.	reduce by rule 20
+
+
+state 63:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE DIV EXPRE .  (reduce by rule 21)
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+
+
+	.	reduce by rule 21
+
+
+state 64:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+	EXPRE : EXPRE NEQ EXPRE .  (reduce by rule 36)
+
+	GE	shift 51
+	GT	shift 50
+	EQ	shift 49
+	LE	shift 48
+	LT	shift 47
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+
+
+	.	reduce by rule 36
+
+
+state 65:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE LT EXPRE .  (reduce by rule 34)
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+
+
+	.	reduce by rule 34
+
+
+state 66:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE LE EXPRE .  (reduce by rule 33)
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+
+
+	.	reduce by rule 33
+
+
+state 67:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE EQ EXPRE .  (reduce by rule 35)
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	GE	shift 51
+	GT	shift 50
+	LE	shift 48
+	LT	shift 47
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+
+
+	.	reduce by rule 35
+
+
+state 68:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE GT EXPRE .  (reduce by rule 31)
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+
+
+	.	reduce by rule 31
+
+
+state 69:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE GE EXPRE .  (reduce by rule 32)
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+
+
+	.	reduce by rule 32
+
+
+state 70:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE AND EXPRE .  (reduce by rule 27)
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	GE	shift 51
+	GT	shift 50
+	EQ	shift 49
+	LE	shift 48
+	LT	shift 47
+	NEQ	shift 46
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+
+
+	.	reduce by rule 27
+
+
+state 71:
+
+	EXPRE : EXPRE . OR EXPRE 
+	EXPRE : EXPRE OR EXPRE .  (reduce by rule 17)
+	EXPRE : EXPRE . PLUS EXPRE 
+	EXPRE : EXPRE . MINUS EXPRE 
+	EXPRE : EXPRE . TIMES EXPRE 
+	EXPRE : EXPRE . DIV EXPRE 
+	EXPRE : EXPRE . MOD EXPRE 
+	EXPRE : EXPRE . AND EXPRE 
+	EXPRE : EXPRE . GT EXPRE 
+	EXPRE : EXPRE . GE EXPRE 
+	EXPRE : EXPRE . LE EXPRE 
+	EXPRE : EXPRE . LT EXPRE 
+	EXPRE : EXPRE . EQ EXPRE 
+	EXPRE : EXPRE . NEQ EXPRE 
+
+	AND	shift 52
+	GE	shift 51
+	GT	shift 50
+	EQ	shift 49
+	LE	shift 48
+	LT	shift 47
+	NEQ	shift 46
+	DIV	shift 45
+	TIMES	shift 44
+	MINUS	shift 43
+	PLUS	shift 42
+	MOD	shift 41
+
+
+	.	reduce by rule 17
+
+
+state 72:
+
+	EXPRE : LPAREN EXPRE RPAREN .  (reduce by rule 25)
+
+
+
+	.	reduce by rule 25
+
+
+state 73:
+
+	CMD : IF EXPRE THEN COMSEQ . ELSE COMSEQ ENDIF 
+
+	ELSE	shift 75
+
+
+	.	error
+
+
+state 74:
+
+	CMD : WH EXPRE DO COMSEQ . ENDWH 
+
+	ENDWH	shift 76
+
+
+	.	error
+
+
+state 75:
+
+	CMD : IF EXPRE THEN COMSEQ ELSE . COMSEQ ENDIF 
+
+	LBRACE	shift 9
+
+	COMSEQ	goto 77
+
+	.	error
+
+
+state 76:
+
+	CMD : WH EXPRE DO COMSEQ ENDWH .  (reduce by rule 16)
+
+
+
+	.	reduce by rule 16
+
+
+state 77:
+
+	CMD : IF EXPRE THEN COMSEQ ELSE COMSEQ . ENDIF 
+
+	ENDIF	shift 78
+
+
+	.	error
+
+
+state 78:
+
+	CMD : IF EXPRE THEN COMSEQ ELSE COMSEQ ENDIF .  (reduce by rule 15)
+
+
+
+	.	reduce by rule 15
+
+
+state 79:
+
+
+	EOF	accept
+
+
+	.	error
+
+168 of 384 action table entries left after compaction
+33 goto table entries
